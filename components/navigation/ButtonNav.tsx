@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 import { cn } from "@lib/utils";
-import { Web3NetworkSwitch, Web3Button } from "@web3modal/react";
+import { useWeb3Modal } from "@web3modal/ethers5/react";
 
 import { Icons } from "@components/Icons";
 import { buttonVariants } from "@components/ui/Button";
@@ -29,6 +29,7 @@ const LoadingSkeleton = () => (
 
 export function ButtonNav() {
   const pathname = usePathname();
+  const { open } = useWeb3Modal();
   const isExplore = pathname === "/explore";
   const [loading, setLoading] = useState(true);
 
@@ -51,8 +52,26 @@ export function ButtonNav() {
             </div>
           ) : (
             <>
-              <Web3NetworkSwitch />
-              <Web3Button />
+              <button
+                onClick={() => open({ view: "Networks" })}
+                className={cn(
+                  buttonVariants({ variant: "default", size: "sm" }),
+                  "px-4"
+                )}
+              >
+                <Icons.link className="w-4 h-4 mr-2" />
+                Change Network
+              </button>
+              <button
+                onClick={() => open()}
+                className={cn(
+                  buttonVariants({ variant: "default", size: "sm" }),
+                  "px-4"
+                )}
+              >
+                <Icons.wallet className="w-4 h-4 mr-2" />
+                Connect Wallet
+              </button>
             </>
           )}
         </div>

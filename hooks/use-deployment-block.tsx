@@ -51,7 +51,9 @@ export const useDeploymentBlock = (
 
       try {
         for (let i = 0; i < maxIterations && !cancelSearchRef.current; i++) {
+          console.log("i", maxIterations);
           const mid = Math.floor((lowerBound + upperBound) / 2);
+          console.log("mid", mid);
           setCurrentSearchBlock(mid);
           setDeploymentProgress((i / maxIterations) * 100);
 
@@ -80,7 +82,6 @@ export const useDeploymentBlock = (
         setSuccess(true);
         setDeploymentProgress(100);
 
-        //  reset blockNumber, success and currentSearchBlock from useDeploymentBlock when a new search is started
         return () => {
           setBlockNumber(undefined);
           setSuccess(false);

@@ -82,7 +82,7 @@ import {
   zhejiang,
   zkSync,
   zkSyncTestnet,
-} from "wagmi/chains";
+} from 'viem/chains'
 
 export const chains = [
   arbitrum,

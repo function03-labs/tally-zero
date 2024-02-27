@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
-import { useProvider } from "wagmi";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 
 import { useParseProposals } from "@hooks/use-parse-proposals";
 import { useSearchProposals } from "@hooks/use-search-proposals";
@@ -26,10 +25,12 @@ export function useGovernorContract({
 }) {
   const [overallProgress, setOverallProgress] = useState(0);
 
-  // reset provider when networkId changes
-  const provider = useProvider({
-    chainId: parseInt(values.networkId?.toString() as string),
-  });
+  // Inside your component
+  const provider = useMemo(() => {
+    if (!values.networkId) return new ethers.providers.JsonRpcProvider();
+
+    return new ethers.providers.EtherscanProvider(values.networkId);
+  }, [values.networkId]);
 
   const dao = daos.find(
     (dao) => dao.ethAddress === values.contractAddress
